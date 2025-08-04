@@ -1,3 +1,3 @@
 #pragma once
-void showBlinkingAlert(const char* message);
+void PrintConsoleAlert(const char* message);
 
