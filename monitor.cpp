@@ -4,7 +4,7 @@
 
 bool isTemperatureOk(float temperature) {
   if (temperature < 95 || temperature > 102) {
-    showBlinkingAlert("Temperature is critical!");
+    PrintConsoleAlert("Temperature is critical!");
     return false;
   }
   return true;
@@ -12,7 +12,7 @@ bool isTemperatureOk(float temperature) {
 
 bool isPulseRateOk(float pulseRate) {
   if (pulseRate < 60 || pulseRate > 100) {
-    showBlinkingAlert("Pulse Rate is out of range!");
+    PrintConsoleAlert("Pulse Rate is out of range!");
     return false;
   }
   return true;
@@ -20,7 +20,7 @@ bool isPulseRateOk(float pulseRate) {
 
 bool isSpO2Ok(float spo2) {
   if (spo2 < 90) {
-    showBlinkingAlert("Oxygen Saturation out of range!");
+    PrintConsoleAlert("Oxygen Saturation out of range!");
     return false;
   }
   return true;
