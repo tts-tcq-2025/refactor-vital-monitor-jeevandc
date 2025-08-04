@@ -1,4 +1,4 @@
-#include "display.h"
+#include "./display.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
