@@ -1,4 +1,5 @@
-#include "display.h"
+#include "./monitor.h"
+#include "./display.h"
 #include <iostream>
 
 bool isTemperatureOk(float temperature) {
