@@ -1,19 +1,9 @@
 #include "./monitor.h"
+#include "display.h"
 #include <assert.h>
-#include <thread>
-#include <chrono>
 #include <iostream>
-using std::cout, std::flush, std::this_thread::sleep_for, std::chrono::seconds;
-
-void showBlinkingAlert(const char* message) {
-  cout << message << "\n";
-  for (int i = 0; i < 6; i++) {
-    cout << "\r* " << flush;
-    sleep_for(seconds(1));
-    cout << "\r *" << flush;
-    sleep_for(seconds(1));
-  }
-}
+using std::cout;
+using std::cout;
 
 int vitalsOk(float temperature, float pulseRate, float spo2) {
   if (temperature > 102 || temperature < 95) {
