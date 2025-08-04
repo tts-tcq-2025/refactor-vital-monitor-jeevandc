@@ -1,6 +1,6 @@
 #include "./monitor.h"
-#include "./display.h"
 #include <iostream>
+#include "./display.h"
 
 bool isTemperatureOk(float temperature) {
   if (temperature < 95 || temperature > 102) {
