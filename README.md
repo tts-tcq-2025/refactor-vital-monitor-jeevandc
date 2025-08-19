@@ -46,3 +46,10 @@ Shorten the Semantic distance
 - Functional to express relation between input and output
 - Object oriented to encapsulate state with actions
 - Aspect oriented to capture repeating aspects
+
+## Extension 1: Early Warning
+-Added a calcTolerance() helper (1.5% of upper limit).
+-Extended each check with early warning ranges:
+-Temperature: near 95 → hypothermia warning, near 102 → hyperthermia warning.
+-Pulse: near 60 → bradycardia warning, near 100 → tachycardia warning.
+-SpO₂: near 90 → hypoxemia warning, near 100 → upper saturation warning.

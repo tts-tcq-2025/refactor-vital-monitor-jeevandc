@@ -1,38 +1,68 @@
 #include "./monitor.h"
-#include <assert.h>
-#include <thread>
-#include <chrono>
 #include <iostream>
-using std::cout, std::flush, std::this_thread::sleep_for, std::chrono::seconds;
+#include "./display.h"
+
+// Utility to calculate tolerance-based warning
+float calcTolerance(float upperLimit, float percentage) {
+    return (upperLimit * percentage) / 100.0f;
+}
+
+bool isTemperatureOk(float temperature) {
+    float lower = 95.0f;
+    float upper = 102.0f;
+    float tolerance = calcTolerance(upper, 1.5f);
+
+    if (temperature < lower || temperature > upper) {
+        PrintConsoleAlert("Temperature is critical!");
+        return false;
+    }
+    if (temperature >= lower && temperature <= lower + tolerance) {
+        PrintConsoleAlert("Warning: Approaching hypothermia");
+    }
+    if (temperature >= upper - tolerance && temperature <= upper) {
+        PrintConsoleAlert("Warning: Approaching hyperthermia");
+    }
+    return true;
+}
+
+bool isPulseRateOk(float pulseRate) {
+    float lower = 60.0f;
+    float upper = 100.0f;
+    float tolerance = calcTolerance(upper, 1.5f);
+
+    if (pulseRate < lower || pulseRate > upper) {
+        PrintConsoleAlert("Pulse Rate is out of range!");
+        return false;
+    }
+    if (pulseRate >= lower && pulseRate <= lower + tolerance) {
+        PrintConsoleAlert("Warning: Approaching bradycardia (low pulse)");
+    }
+    if (pulseRate >= upper - tolerance && pulseRate <= upper) {
+        PrintConsoleAlert("Warning: Approaching tachycardia (high pulse)");
+    }
+    return true;
+}
+
+bool isSpO2Ok(float spo2) {
+    float lower = 90.0f;
+    float upper = 100.0f;  // normal max
+    float tolerance = calcTolerance(upper, 1.5f);
+
+    if (spo2 < lower) {
+        PrintConsoleAlert("Oxygen Saturation out of range!");
+        return false;
+    }
+    if (spo2 >= lower && spo2 <= lower + tolerance) {
+        PrintConsoleAlert("Warning: Approaching hypoxemia");
+    }
+    if (spo2 >= upper - tolerance && spo2 <= upper) {
+        PrintConsoleAlert("Warning: Approaching upper saturation limit");
+    }
+    return true;
+}
 
 int vitalsOk(float temperature, float pulseRate, float spo2) {
-  if (temperature > 102 || temperature < 95) {
-    cout << "Temperature is critical!\n";
-    for (int i = 0; i < 6; i++) {
-      cout << "\r* " << flush;
-      sleep_for(seconds(1));
-      cout << "\r *" << flush;
-      sleep_for(seconds(1));
-    }
-    return 0;
-  } else if (pulseRate < 60 || pulseRate > 100) {
-    cout << "Pulse Rate is out of range!\n";
-    for (int i = 0; i < 6; i++) {
-      cout << "\r* " << flush;
-      sleep_for(seconds(1));
-      cout << "\r *" << flush;
-      sleep_for(seconds(1));
-    }
-    return 0;
-  } else if (spo2 < 90) {
-    cout << "Oxygen Saturation out of range!\n";
-    for (int i = 0; i < 6; i++) {
-      cout << "\r* " << flush;
-      sleep_for(seconds(1));
-      cout << "\r *" << flush;
-      sleep_for(seconds(1));
-    }
-    return 0;
-  }
-  return 1;
+    return isTemperatureOk(temperature) &&
+           isPulseRateOk(pulseRate) &&
+           isSpO2Ok(spo2);
 }
